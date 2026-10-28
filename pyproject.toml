@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "leavebot"
+version = "0.1.0"
+description = "LeaveBot 請假系統（課程專案）"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "httpx",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools]
+package-dir = { "" = "backend" }
+
+[tool.setuptools.packages.find]
+where = ["backend"]
+include = ["app*"]
+
+[tool.setuptools.package-data]
+app = ["static/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+pythonpath = ["backend"]
+addopts = "--import-mode=importlib"
+markers = [
+    "req(tc, ref): 對應測試計畫的 TC 編號與 AC/FR 編號",
+]

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LeaveBot</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>LeaveBot 請假</h1>
+    <p class="health">伺服器狀態：<span id="health-status" class="status">檢查中…</span></p>
+
+    <section>
+      <label for="employee">員工</label>
+      <select id="employee">
+        <option value="">請選擇員工</option>
+      </select>
+    </section>
+
+    <!-- 前端不做業務驗證、不設 maxlength（SDS UI-01）。 -->
+    <form id="leave-form" novalidate>
+      <h2>申請假單</h2>
+      <label for="leave_type">假別</label>
+      <select id="leave_type" name="leave_type">
+        <option value="annual">特休</option>
+        <option value="personal">事假</option>
+        <option value="sick">病假</option>
+      </select>
+
+      <label for="start_date">開始日期</label>
+      <input type="date" id="start_date" name="start_date">
+
+      <label for="end_date">結束日期</label>
+      <input type="date" id="end_date" name="end_date">
+
+      <label for="period">時段</label>
+      <select id="period" name="period">
+        <option value="full">整天</option>
+        <option value="am">上午</option>
+        <option value="pm">下午</option>
+      </select>
+
+      <label for="reason">理由（選填）</label>
+      <textarea id="reason" name="reason" rows="3"></textarea>
+
+      <button type="submit" id="submit">送出</button>
+      <div id="message" role="status"></div>
+      <ul id="errors" class="errors"></ul>
+    </form>
+
+    <section>
+      <h2>我的假單</h2>
+      <p id="empty" class="empty" hidden>尚無假單</p>
+      <ul id="requests" class="requests"></ul>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

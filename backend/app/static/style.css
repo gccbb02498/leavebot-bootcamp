@@ -1,0 +1,73 @@
+body {
+  font-family: system-ui, "Microsoft JhengHei", sans-serif;
+  margin: 0;
+  background: #f6f7f9;
+  color: #222;
+}
+
+main {
+  max-width: 640px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+label {
+  display: block;
+  margin-top: 0.75rem;
+  font-weight: bold;
+}
+
+select,
+input,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.4rem;
+  font: inherit;
+}
+
+button {
+  margin-top: 1rem;
+  padding: 0.5rem 1.5rem;
+  font: inherit;
+}
+
+button:disabled {
+  opacity: 0.5;
+}
+
+.status {
+  font-weight: bold;
+}
+
+.status.ok,
+.message.ok {
+  color: #1a7f37;
+}
+
+.status.error,
+.message.error,
+.errors {
+  color: #cf222e;
+}
+
+.message {
+  margin-top: 0.75rem;
+}
+
+.requests {
+  padding-left: 1.2rem;
+}
+
+.requests li {
+  margin-bottom: 0.5rem;
+}
+
+.reason {
+  color: #555;
+  white-space: pre-wrap;
+}
+
+.empty {
+  color: #666;
+}
