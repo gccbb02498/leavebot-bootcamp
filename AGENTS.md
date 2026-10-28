@@ -35,3 +35,10 @@ Claude Code 經 `CLAUDE.md` 載入本檔；Codex 直接讀本檔。通用 skills
 ## 本專案決策（D2 拆票時由小組補充）
 
 只記本組已確認且可檢查的規則，例如「半天假只接受同一天」。引用對應 SRS/SDS，避免複寫整份規格。
+
+- 理由選填；先去掉前後空白再用 Python `len` 計數，上限 200；只有空白存 NULL（Brief D-01、SDS S-04）。
+- 不和「今天」比較，過去日期合法（Brief D-02）。
+- POST 出現未定義欄位（含 `status`、`days`）整筆回 422 `unknown_field`；狀態與天數只由後端決定（SDS S-01、ADR-03）。
+- 錯誤一律用 `{"errors":[{field, code, message}]}`；測試以 `code` 判斷，不比對 `message`（SDS S-02）。
+- 測試只用 `create_app(db_path=tmp_path/..., today=...)` 建 app，不用模組層 `app`（SAD ADR-02）。
+- 前端不做業務驗證、不設 `maxlength`；伺服器文字一律 `textContent`（SDS UI-01）。

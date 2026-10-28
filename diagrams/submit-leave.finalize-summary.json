@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "C:\\Users\\User\\python_workstation\\leavebot-bootcamp\\diagrams\\submit-leave.candidate.json",
+    "sha256": "adb93b681a8263c8ec2e3f819ba98ed5fd52ff8fb950a98737e1746daafd7980",
+    "bytes": 5354
+  },
+  "artifact": {
+    "path": "C:\\Users\\User\\python_workstation\\leavebot-bootcamp\\diagrams\\submit-leave.html",
+    "sha256": "1ea649ce42c7b1ba2b8e801fc4ba2e042fbd6410a2d3ba3db14c5a05189d25c2",
+    "bytes": 824065
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "C:\\Users\\User\\python_workstation\\leavebot-bootcamp\\diagrams\\submit-leave.finalize.json",
+    "summaryReceipt": "C:\\Users\\User\\python_workstation\\leavebot-bootcamp\\diagrams\\submit-leave.finalize-summary.json",
+    "browserCheckReceipt": "C:\\Users\\User\\python_workstation\\leavebot-bootcamp\\diagrams\\submit-leave.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.2.0",
+    "availableVersion": "3.2.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-28T06:03:04.473Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 3682,
+  "browserCheck": {
+    "requested": true,
+    "ran": true
+  }
+}

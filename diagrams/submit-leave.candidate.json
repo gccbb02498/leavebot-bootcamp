@@ -1,0 +1,243 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "LeaveBot 員工提交請假流程",
+    "locale": "zh-TW",
+    "quality_profile": "showcase",
+    "output": "diagrams/submit-leave.html"
+  },
+  "lanes": [
+    {
+      "id": "employee",
+      "label": "員工"
+    },
+    {
+      "id": "page",
+      "label": "前端頁面"
+    },
+    {
+      "id": "api",
+      "label": "後端 API"
+    },
+    {
+      "id": "store",
+      "label": "SQLite"
+    },
+    {
+      "id": "failure",
+      "label": "錯誤回饋（不存檔）",
+      "variant": "exception"
+    }
+  ],
+  "mainPath": [
+    "pick",
+    "form",
+    "submit",
+    "validate",
+    "insert",
+    "success",
+    "mylist"
+  ],
+  "nodes": [
+    {
+      "id": "pick",
+      "lane": "employee",
+      "col": 0,
+      "type": "external",
+      "icon": "person",
+      "label": "選員工",
+      "sublabel": "下拉選單",
+      "tag": "FR-01"
+    },
+    {
+      "id": "form",
+      "lane": "page",
+      "col": 1,
+      "type": "frontend",
+      "label": "填表",
+      "sublabel": "假別、日期、時段、理由"
+    },
+    {
+      "id": "submit",
+      "lane": "page",
+      "col": 2,
+      "type": "frontend",
+      "label": "按送出",
+      "sublabel": "按鈕停用",
+      "tag": "FR-10"
+    },
+    {
+      "id": "validate",
+      "lane": "api",
+      "col": 3,
+      "type": "security",
+      "label": "後端驗證",
+      "sublabel": "必填、合法值、日期、天數、理由",
+      "tag": "FR-02～FR-06"
+    },
+    {
+      "id": "insert",
+      "lane": "store",
+      "col": 4,
+      "type": "database",
+      "label": "新增假單",
+      "sublabel": "status=pending、後端天數",
+      "tag": "FR-07"
+    },
+    {
+      "id": "success",
+      "lane": "page",
+      "col": 4,
+      "type": "frontend",
+      "label": "顯示成功",
+      "sublabel": "已送出、待審核＋天數",
+      "tag": "FR-10"
+    },
+    {
+      "id": "mylist",
+      "lane": "page",
+      "col": 5,
+      "type": "frontend",
+      "icon": "success",
+      "label": "我的假單",
+      "sublabel": "後端只回所選員工",
+      "tag": "FR-09"
+    },
+    {
+      "id": "reject",
+      "lane": "failure",
+      "col": 3,
+      "type": "security",
+      "icon": "failure",
+      "label": "回應拒絕原因",
+      "sublabel": "資料庫筆數不變",
+      "tag": "FR-08"
+    },
+    {
+      "id": "restore",
+      "lane": "failure",
+      "col": 2,
+      "type": "frontend",
+      "label": "恢復按鈕",
+      "sublabel": "保留內容、顯示原因",
+      "tag": "FR-10"
+    }
+  ],
+  "edges": [
+    {
+      "id": "pick-form",
+      "from": "pick",
+      "to": "form",
+      "variant": "default"
+    },
+    {
+      "id": "form-submit",
+      "from": "form",
+      "to": "submit",
+      "variant": "default"
+    },
+    {
+      "id": "submit-validate",
+      "from": "submit",
+      "to": "validate",
+      "label": "送出申請",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "top"
+    },
+    {
+      "id": "validate-insert",
+      "from": "validate",
+      "to": "insert",
+      "label": "全部通過",
+      "variant": "emphasis"
+    },
+    {
+      "id": "insert-success",
+      "from": "insert",
+      "to": "success",
+      "label": "回傳狀態與天數",
+      "variant": "emphasis",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "success-list",
+      "from": "success",
+      "to": "mylist",
+      "label": "重新載入",
+      "variant": "default"
+    },
+    {
+      "id": "validate-reject",
+      "from": "validate",
+      "to": "reject",
+      "label": "任一失敗",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "reject-restore",
+      "from": "reject",
+      "to": "restore",
+      "variant": "security",
+      "role": "error"
+    },
+    {
+      "id": "submit-network",
+      "from": "submit",
+      "to": "restore",
+      "label": "網路錯誤",
+      "variant": "dashed",
+      "role": "error"
+    },
+    {
+      "id": "restore-form",
+      "from": "restore",
+      "to": "form",
+      "label": "改正後再送",
+      "variant": "dashed",
+      "role": "return",
+      "fromSide": "left",
+      "toSide": "bottom"
+    }
+  ],
+  "semanticChecks": {
+    "allowedRoots": [
+      "pick"
+    ],
+    "allowedTerminals": [
+      "mylist"
+    ],
+    "requiredPaths": [
+      {
+        "from": "pick",
+        "to": "mylist"
+      },
+      {
+        "from": "validate",
+        "to": "restore"
+      }
+    ]
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "成功路徑",
+      "items": [
+        "只有全部驗證通過才寫入 SQLite（FR-08）",
+        "狀態固定 pending，天數由後端計算（FR-05、FR-07）",
+        "選員工時也依該員工載入我的假單（FR-09）"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "拒絕路徑",
+      "items": [
+        "缺欄、名單外員工、非法假別或時段、日期反向、半天跨日、零工作日、理由超過 200 字",
+        "拒絕與網路錯誤都不新增資料，表單內容保留"
+      ]
+    }
+  ]
+}
